@@ -1,0 +1,267 @@
+import java.util.LinkedList;
+
+public class Main {
+    public static void main(String[] args) {
+
+/*
+        magicNumber(987654321);
+        magicNumber(4412);
+        magicNumber(987654);
+        magicNumber(1234567);
+        magicNumber(4412);
+*/
+
+
+/*
+int[] duplicate1 = {1,2,1,3,1,4,1,5,1,6,1,7,1,8,1,9,-1};
+int[] duplicate2 = {1,2,5,3,7,2,9,8,2,4,8,7,5,3,8,0,3,2,5,7,9,2,8,-1};
+
+deleteDuplicate( duplicate1);
+deleteDuplicate( duplicate2);
+ */
+
+/*
+
+        palindrome(55,757);
+        palindrome(1,1000000);
+        palindrome(11111,100000);
+        palindrome(1,100);
+
+*/
+
+        String romanN1 =  roman(1234);
+        String romanN2 =  roman(3999);
+        String romanN3 =  roman(4000);
+        String romanN4 =  roman(2024);
+        String romanN5 =  roman(1111);
+        System.out.println();
+        String romanN6 =  roman(2000);
+        String romanN7 =  roman(1996);
+        String romanN8 =  roman(592);
+        String romanN9 =  roman(1091);
+        String romanN0 =  roman(1886);
+    }//main end
+
+    /*
+        take int(magic)
+        find length
+        change int to array digit by digit(digits)
+        out of loop have saved int(num) set to 0
+        magic_num set true
+        run loop through [digits] to check if modulate
+
+            if ( ((num) % (digits[i+1]) != 0) ) magic_num = false  then break
+            (num) x (10) + digits[i]
+        end loop
+
+        print results of magic num
+         */
+    public static void magicNumber(int a) {
+        int magic = a;
+        int magic2 = magic;
+        String magicString = String.valueOf(magic);
+        int[] digits = new int[(int) Math.log10(magic) + 1];
+        for (int i = 0; i < digits.length; i++) {
+            digits[digits.length - 1 - i] = magic2 % 10;
+            magic2 = magic2 / 10;
+        }// got each digit
+
+        magic2 = 0;
+        boolean result = true;
+        for (int i = 0; i < digits.length - 1; i++) {
+            magic2 = magic2 * 10 + digits[i];
+
+            System.out.println(magic2 + "/" + (i+1) + "==" + (magic2 % (i+1)) );
+            if (magic2 % (i+1) != 0) {
+                result = false;
+                break;
+            }
+        }
+        if (result) {
+            System.out.println(magic + " is a magic number!!");
+        } else System.out.println("unfortunately " + magic + " is not a magic number");
+    } // end magic number
+
+
+    public static void deleteDuplicate(int[] array ){
+
+        /** DELETE Duplicate
+         *
+         * take array and put into link list A
+         * take size of linklist A
+         * make new link list B with each node hold two value
+         *      value-1  is number
+         *      value-2  is how many time
+         *
+         * but linklist A into linklist B
+         *      if not in B  add it at last node to value-1 and value-2 gets +1
+         *      if is in B at the node with value-1 change value2 by +1
+         *
+         *  print linklist A
+         *  print link list B value-1
+         *  print link List b value-2 if > 1
+         *
+         */
+        LinkedList<Integer> alpha = new LinkedList<Integer>();
+        LinkedList<Integer[]> bravo = new LinkedList<Integer[]>();
+
+        for( int i = 0 ; i < array.length ; i++){
+            if(array[i] < 0) break;
+            alpha.add(array[i]);
+            boolean contains = false;
+
+            for (int j = 0; j < bravo.size(); j++) {
+                if (bravo.get(j)[0] == array[i]) {
+                    contains = true;
+                    Integer[] temp = {bravo.get(j)[0],bravo.get(j)[1]+1};
+                    bravo.set(j,temp);
+                    break;
+                }
+            }
+            if( !(contains) ){
+                Integer[] temp = {array[i],1};
+                bravo.addLast(temp);
+
+            }
+            if( bravo.size() == 0){
+                Integer[] temp = {array[i], 1};
+                bravo.add(temp );
+            }
+        }
+
+        System.out.println("original list is" + alpha);
+
+        System.out.println(" it containded the duplicateds with value");
+        for (int j = 0; j < bravo.size(); j++) {
+            if (bravo.get(j)[1] > 1) {
+                System.out.println(", "+ bravo.get(j)[0] + " duplicated " + bravo.get(j)[1] + " times");
+            }
+        }
+        System.out.println("final list is");
+        for (int j = 0; j < bravo.size(); j++) {
+
+                System.out.print(", "+ bravo.get(j)[0] );
+        }
+
+
+    }// dd end
+
+    public static int palindrome(int x, int y){
+        /**
+         * check each number between x and y name each number temp
+         *  put temp into array one digit at a time
+         *  compare beginning to the end of array then work towards center
+         *      if don't match then not a palindrome
+         *  if all digits match +1 to counter
+         *
+         *  return final results
+         */
+        int z = 0;
+
+        for( int i = x; i <= y; i++){
+
+            int[] digits = new int[(int) Math.log10(i) + 1];
+            int temp_i=i;
+            for (int j = 0; j < digits.length; j++) {
+                digits[j] = temp_i % 10;
+                temp_i = temp_i / 10;
+            }// got each digit
+
+            boolean goodCheck = true;
+
+            for (int k = 0; k < (digits.length/2) ; k++) {
+                if (digits[k] != digits[digits.length-k-1]){
+    //                System.out.println(" is false " + i + ", " + digits[k]);
+                    goodCheck = false;
+                    break;
+                }
+
+            }
+            if( goodCheck){
+ //               System.out.println(a + " = "+  b);
+                z++;
+            }
+        }
+        System.out.println(" x = " + x + " & y = " + y + " there are " + z + " palindromes.");
+        return z;
+    }
+
+    public static String roman(int a) {
+
+        int b = a;
+
+        StringBuilder tempS = new StringBuilder();
+
+        if(b > 3999){
+                tempS = new StringBuilder("Number is to large for standard Roman Numeral");
+                return tempS.toString();
+
+        }
+        if(b >= 1000){
+            for( int i = 0 ; b >= 1000 ; i++ ){
+                tempS.append("M");
+                b = b-1000;
+            }
+        }
+        if(b >= 900){
+                tempS.append("CM");
+                b = b-900;
+        }
+        if(b >= 500){
+                tempS.append("D");
+                b = b-500;
+        }
+        if(b >= 400){
+            tempS.append("CD");
+            b = b-400;
+        }
+        if(b >= 100){
+            for( int i = 0 ; b >= 100 ; i++ ){
+                tempS.append("C");
+                b = b-100;
+            }
+        }
+        if(b >= 90){
+            tempS.append("XC");
+            b = b-90;
+        }
+        if(b >= 50){
+            tempS.append("L");
+            b = b-50;
+        }
+        if(b >= 40){
+            tempS.append("XL");
+            b = b-40;
+        }
+        if(b >= 10){
+            for( int i = 0 ; b >= 10 ; i++ ){
+                tempS.append("X");
+                b = b-10;
+            }
+        }
+        if(b == 9){
+            tempS.append("IX");
+            b = b-9;
+        }
+        if(b >= 5){
+            tempS.append("V");
+            b = b-5;
+        }
+        if(b == 4){
+            tempS.append("IV");
+            b = b-4;
+        }
+        if(b >= 1){
+            for( int i = 0 ; b > 0 ; i++ ){
+                tempS.append("I");
+                b = b-1;
+            }
+        }
+        if(b != 0){
+            System.out.println("ERROR");
+        }
+
+        System.out.println("number " + a + " is writen as " + tempS + " in Roman Numerals");
+        return tempS.toString();
+    }
+}//big end
